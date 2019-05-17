@@ -142,14 +142,14 @@ class CharRNN:
         c = pick_top_n(preds, vocab_size)
         samples.append(c)
 
-        for i in range(n_samples):
+        for _ in range(n_samples):
             x = np.zeros((1, 1))
             x[0, 0] = c
             feed = {self.inputs: x,
                     self.keep_prob: 1.,
-                    self.initial_state: new_state}
-            preds, new_state = sess.run([self.proba_prediction, self.final_state],
-                                        feed_dict=feed)
+                    self.init_state: new_state}
+            preds, new_state = self.session.run([self.preds, self.final_state],
+                                             feed_dict=feed)
 
             c = pick_top_n(preds, vocab_size)
             samples.append(c)
